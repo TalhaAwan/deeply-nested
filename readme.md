@@ -29,7 +29,7 @@ const { countKey, hasKey } = require("nested-keys").default;
 ```js
 import { countKey, hasKey } from "nested-keys";
 
-const deeplyNestedObj2 = {
+const deeplyNestedObj = {
   a: {
     b: {
       c: {
@@ -52,25 +52,25 @@ const deeplyNestedObj2 = {
   e: "Eeee",
 };
 
-hasKey(deeplyNestedObj2, "a");
+hasKey(deeplyNestedObj, "a");
 // => true
 
-hasKey(deeplyNestedObj2, "b");
+hasKey(deeplyNestedObj, "b");
 // => true
 
-hasKey(deeplyNestedObj2, "x");
+hasKey(deeplyNestedObj, "x");
 // => false
 
-countKey(deeplyNestedObj2, "a");
+countKey(deeplyNestedObj, "a");
 // => 1
 
-countKey(deeplyNestedObj2, "d");
+countKey(deeplyNestedObj, "d");
 // => 2
 
-countKey(deeplyNestedObj2, "e");
+countKey(deeplyNestedObj, "e");
 // => 3
 
-countKey(deeplyNestedObj2, "x");
+countKey(deeplyNestedObj, "x");
 // => 0
 ```
 
