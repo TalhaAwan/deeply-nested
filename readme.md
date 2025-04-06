@@ -21,7 +21,7 @@ import { countKey, hasKey } from "deeply-nested";
 ### CommonJS
 
 ```js
-const { countKey, hasKey } = require("deeply-nested").default;
+const { countKey, hasKey } = require("deeply-nested");
 ```
 
 ## Examples
