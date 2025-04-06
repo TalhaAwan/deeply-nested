@@ -1,11 +1,15 @@
 {
-  "name": "nested-keys",
+  "name": "deeply-nested",
   "version": "1.0.0",
-  "description": "Get information about nested keys in JavaScript objects and arrays",
+  "description": "Get information about deeply nested keys in JavaScript objects and arrays",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "repository": "TalhaAwan/get-numbers",
+  "repository": "TalhaAwan/deeply-nested",
+  "homepage": "https://github.com/TalhaAwan/deeply-nested#readme",
+  "bugs": {
+    "url": "https://github.com/TalhaAwan/deeply-nested/issues"
+  },
   "files": [
     "dist"
   ],
@@ -16,10 +20,13 @@
   },
   "keywords": [
     "get",
+    "deeply",
     "nested",
     "keys",
     "object",
-    "array"
+    "array",
+    "access",
+    "path"
   ],
   "author": "Talha Awan",
   "license": "MIT",

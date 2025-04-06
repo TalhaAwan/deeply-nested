@@ -1,13 +1,13 @@
 [//]: # "The code structure for the repo: https://pauloe-me.medium.com/typescript-npm-package-publishing-a-beginners-guide-40b95908e69c"
 
-# nested-keys ![nested-keys](https://github.com/TalhaAwan/nested-keys/actions/workflows/build.yml/badge.svg)
+# deeply-nested ![deeply-nested](https://github.com/TalhaAwan/deeply-nested/actions/workflows/build.yml/badge.svg)
 
-> Get information about nested keys in JavaScript objects and arrays
+> Get information about deeply nested keys in JavaScript objects and arrays
 
 ## Install
 
 ```
-$ npm install nested-keys
+$ npm install deeply-nested
 ```
 
 ## Usage
@@ -15,19 +15,19 @@ $ npm install nested-keys
 ### ES Module
 
 ```js
-import { countKey, hasKey } from "nested-keys";
+import { countKey, hasKey } from "deeply-nested";
 ```
 
 ### CommonJS
 
 ```js
-const { countKey, hasKey } = require("nested-keys").default;
+const { countKey, hasKey } = require("deeply-nested").default;
 ```
 
 ## Examples
 
 ```js
-import { countKey, hasKey } from "nested-keys";
+import { countKey, hasKey } from "deeply-nested";
 
 const deeplyNestedObj = {
   a: {
