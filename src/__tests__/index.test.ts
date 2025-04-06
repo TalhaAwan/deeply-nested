@@ -121,6 +121,9 @@ describe('NestedKeys', () => {
       // @ts-ignore
       expect(hasKey(deeplyNestedObj, 2)).toBe(false);
       expect(hasKey(deeplyNestedObj, "2")).toBe(true);
+      // @ts-ignore
+      expect(hasKey([deeplyNestedObj], 2)).toBe(false);
+      expect(hasKey([deeplyNestedObj], "2")).toBe(true);
     })
   })
   describe('countKey', () => {
@@ -170,6 +173,9 @@ describe('NestedKeys', () => {
       // @ts-ignore
       expect(countKey(deeplyNestedObj, 2)).toBe(0);
       expect(countKey(deeplyNestedObj, "2")).toBe(1);
+      // @ts-ignore
+      expect(countKey([deeplyNestedObj], 2)).toBe(0);
+      expect(countKey([deeplyNestedObj], "2")).toBe(1);
     })
   })
 });
