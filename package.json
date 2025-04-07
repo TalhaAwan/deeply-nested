@@ -20,13 +20,15 @@
   },
   "keywords": [
     "get",
+    "access",
     "deeply",
     "nested",
-    "keys",
     "object",
     "array",
-    "access",
-    "path"
+    "keys",
+    "path",
+    "value",
+    "count"
   ],
   "author": "Talha Awan",
   "license": "MIT",
