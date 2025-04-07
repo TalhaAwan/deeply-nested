@@ -1,4 +1,5 @@
-import { countKey, hasKey } from '../index';
+import { countKey, findPaths, getValues, hasKey } from '../index';
+import _ from "lodash";
 
 const deeplyNestedObj = {
   a: {
@@ -67,6 +68,55 @@ const deeplyNestedObj = {
     2: "two"
   },
 };
+
+const deeplyNestedObj2 = {
+  a: {
+    b: {
+      c: {
+        d: {
+          e: "e",
+          f: "f",
+        },
+      },
+    },
+    G: undefined,
+    aFunction: () => {
+      return true;
+    },
+  },
+  d: {
+    e: {
+      f: "F",
+    },
+  },
+  e: "Eeee",
+};
+
+console.log(findPaths(deeplyNestedObj2, "a")) // => [ 'a' ]
+console.log(findPaths(deeplyNestedObj2, "b")) // => [ 'a.b' ]
+console.log(findPaths(deeplyNestedObj2, "d")) // => [ 'd', 'a.b.c.d' ]
+console.log(findPaths(deeplyNestedObj2, "e")) // => [ 'e', 'a.b.c.d.e', 'd.e' ]
+console.log(findPaths(deeplyNestedObj2, "G")) // => [ 'a.G' ]
+console.log(findPaths(deeplyNestedObj2, "x")) // => []
+
+
+console.log(getValues(deeplyNestedObj2, "b"))
+// => [ { c: { d: [Object] } } ]
+
+console.log(getValues(deeplyNestedObj2, "d"))
+// => [ { e: { f: 'F' } }, { e: 'e', f: 'f' } ]
+
+console.log(getValues(deeplyNestedObj2, "e"))
+// => [ 'Eeee', 'e', { f: 'F' } ]
+
+console.log(getValues(deeplyNestedObj2, "G"))
+// => [ undefined ]
+
+console.log(getValues(deeplyNestedObj2, "aFunction"))
+// => [ [Function: aFunction] ]
+
+console.log(getValues(deeplyNestedObj2, "aFunction")[0]())
+// => true
 
 describe('NestedKeys', () => {
   describe('hasKey', () => {
@@ -176,6 +226,67 @@ describe('NestedKeys', () => {
       // @ts-ignore
       expect(countKey([deeplyNestedObj], 2)).toBe(0);
       expect(countKey([deeplyNestedObj], "2")).toBe(1);
+    })
+  })
+  describe('findPaths', () => {
+    test('return all valid nested paths to the given key', () => {
+      const pathA = "a";
+      const pathB = "a.b";
+      const pathD1 = "a.b.c.d";
+      const pathD2 = "a.b.c.d.g.h.j.k.l.m.n.o.p.d";
+      const pathD3 = "e1.d";
+      const gibberishIdPath1 = "a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[0].gibberishId";
+      const gibberishIdPath2 = "a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[1].gibberishId";
+
+      expect(findPaths(deeplyNestedObj, "a")).toStrictEqual([pathA]);
+      expect(typeof _.get(deeplyNestedObj, pathA)).toBe("object");
+
+      expect(findPaths(deeplyNestedObj, "b")).toStrictEqual([pathB]);
+      expect(typeof _.get(deeplyNestedObj, pathB)).toBe("object");
+
+      expect(findPaths(deeplyNestedObj, "d")).toStrictEqual([
+        pathD1, pathD2, pathD3
+      ]);
+
+      expect(typeof _.get(deeplyNestedObj, pathD1)).toBe("object");
+      expect(_.get(deeplyNestedObj, pathD2)).toBe("D");
+      expect(_.get(deeplyNestedObj, pathD3)).toBe("dee");
+
+      expect(findPaths(deeplyNestedObj, "gibberishId")).toStrictEqual([
+        gibberishIdPath1,
+        gibberishIdPath2
+      ]);
+      expect(_.get(deeplyNestedObj, gibberishIdPath1)).toBe(1);
+      expect(_.get(deeplyNestedObj, gibberishIdPath2)).toBe(2);
+    });
+    test('return empty for non-existent key', () => {
+      expect(findPaths(deeplyNestedObj, "xyz")).toStrictEqual([]);
+    })
+  })
+
+  describe('getValues', () => {
+    test('return all values of the key occurances in the nested object', () => {
+      const a = getValues(deeplyNestedObj, "a");
+
+      expect(a.length).toBe(1);
+      expect(typeof a[0]).toBe("object");
+
+      const b = getValues(deeplyNestedObj, "b");
+      expect(b.length).toBe(1);
+      expect(typeof b[0]).toBe("object");
+
+      const ds = getValues(deeplyNestedObj, "d");
+      expect(ds.length).toBe(3);
+      expect(typeof ds[0]).toBe("object");
+      expect(ds[1]).toBe("D");
+      expect(ds[2]).toBe("dee");
+
+      expect(getValues(deeplyNestedObj, "gibberishId").length).toBe(2);
+      expect(getValues(deeplyNestedObj, "gibberishId")).toStrictEqual([1, 2]);
+      expect(getValues(deeplyNestedObj, "aFunction")[0]()).toBe(true);
+    });
+    test('return empty for non-existent key', () => {
+      expect(getValues(deeplyNestedObj, "xyz")).toStrictEqual([]);
     })
   })
 });

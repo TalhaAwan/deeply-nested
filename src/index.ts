@@ -24,7 +24,7 @@ const hasKey = (obj: Object, key: string): Boolean => {
   }
 
   return false;
-}
+};
 
 const countKey = (obj: Object, key: string): Number => {
   let keyCount = 0;
@@ -55,9 +55,67 @@ const countKey = (obj: Object, key: string): Number => {
 
   countExistingKey(obj, key);
   return keyCount;
-}
+};
+
+const findPaths = (obj: Object, targetKey: string): string[] => {
+  const paths: string[] = [];
+
+  const helper = (currentObj: Object, currentPath: string[]) => {
+    if (typeof currentObj !== "object" || currentObj === null) {
+      return;
+    }
+
+    if (currentObj.hasOwnProperty(targetKey)) {
+      paths.push([...currentPath, targetKey].join("."));
+    }
+
+    if (Array.isArray(currentObj)) {
+      currentObj.forEach((item, index) => {
+        helper(item, [...currentPath.slice(0, -1), `${currentPath[currentPath.length - 1]}[${index}]`]);
+      });
+    } else {
+      for (const key in currentObj) {
+        helper(currentObj[key], [...currentPath, key]);
+      }
+    }
+  };
+
+  helper(obj, []);
+
+  return paths;
+};
+
+const getValues = (obj: Object, targetKey: string): any[] => {
+  const values: any[] = [];
+
+  const helper = (currentObj: any, currentPath: string[]) => {
+    if (typeof currentObj !== "object" || currentObj === null) {
+      return;
+    }
+
+    if (currentObj.hasOwnProperty(targetKey)) {
+      values.push(currentObj[targetKey]);
+    }
+
+    if (Array.isArray(currentObj)) {
+      currentObj.forEach((item, index) => {
+        helper(item, [...currentPath.slice(0, -1), `${currentPath[currentPath.length - 1]}[${index}]`]);
+      });
+    } else {
+      for (const key in currentObj) {
+        helper(currentObj[key], [...currentPath, key]);
+      }
+    }
+  };
+
+  helper(obj, []);
+
+  return values;
+};
 
 export {
   hasKey,
-  countKey
+  countKey,
+  findPaths,
+  getValues
 };
