@@ -52,20 +52,18 @@ const deeplyNestedObj = {
   e: "Eeee",
 };
 
-hasKey(deeplyNestedObj, "a");
-// => true
+// ** hasKey **
 
-hasKey(deeplyNestedObj, "b");
+hasKey(deeplyNestedObj, "a");
 // => true
 
 hasKey(deeplyNestedObj, "x");
 // => false
 
+// ** countKey **
+
 countKey(deeplyNestedObj, "a");
 // => 1
-
-countKey(deeplyNestedObj, "d");
-// => 2
 
 countKey(deeplyNestedObj, "e");
 // => 3
@@ -73,14 +71,10 @@ countKey(deeplyNestedObj, "e");
 countKey(deeplyNestedObj, "x");
 // => 0
 
+// ** findPaths **
+
 findPaths(deeplyNestedObj, "a");
 // => [ 'a' ]
-
-findPaths(deeplyNestedObj, "b");
-// => [ 'a.b' ]
-
-findPaths(deeplyNestedObj, "d");
-// => [ 'd', 'a.b.c.d' ]
 
 findPaths(deeplyNestedObj, "e");
 // => [ 'e', 'a.b.c.d.e', 'd.e' ]
@@ -88,11 +82,10 @@ findPaths(deeplyNestedObj, "e");
 findPaths(deeplyNestedObj, "x");
 // => []
 
+// ** getValues **
+
 getValues(deeplyNestedObj, "b");
 // => [ { c: { d: [Object] } } ]
-
-getValues(deeplyNestedObj, "d");
-// => [ { e: { f: 'F' } }, { e: 'e', f: 'f' } ]
 
 getValues(deeplyNestedObj, "e");
 // => [ 'Eeee', 'e', { f: 'F' } ]
