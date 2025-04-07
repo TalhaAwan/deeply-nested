@@ -194,6 +194,13 @@ Type: `String`
 getValues(obj, "age"); // => [ 25, 30, 45 ]
 ```
 
+## Additional Resources
+
+This library implementation is based on depth-first search algorithms I originally shared in my blog posts for confirming the existence of nested keys and finding their paths in JavaScript:
+
+- [Check if Key Exists in Deeply Nested Object or Array of Objects](https://www.techighness.com/post/javascript-check-key-existence-in-deeply-nested-object-or-array-without-knowing-path/)
+- [Find Path of Key In Deeply Nested Object or Array](https://www.techighness.com/post/javascript-find-key-path-in-deeply-nested-object-or-array/)
+
 ---
 
 ## License
