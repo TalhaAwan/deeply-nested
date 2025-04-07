@@ -15,19 +15,19 @@ $ npm install deeply-nested
 ### ES Module
 
 ```js
-import { countKey, hasKey } from "deeply-nested";
+import { countKey, hasKey, findPaths, getValues } from "deeply-nested";
 ```
 
 ### CommonJS
 
 ```js
-const { countKey, hasKey } = require("deeply-nested");
+const { countKey, hasKey, findPaths, getValues } = require("deeply-nested");
 ```
 
 ## Examples
 
 ```js
-import { countKey, hasKey } from "deeply-nested";
+import { countKey, hasKey, findPaths, getValues } from "deeply-nested";
 
 const deeplyNestedObj = {
   a: {
