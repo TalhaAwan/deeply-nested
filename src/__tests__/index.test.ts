@@ -69,55 +69,6 @@ const deeplyNestedObj = {
   },
 };
 
-const deeplyNestedObj2 = {
-  a: {
-    b: {
-      c: {
-        d: {
-          e: "e",
-          f: "f",
-        },
-      },
-    },
-    G: undefined,
-    aFunction: () => {
-      return true;
-    },
-  },
-  d: {
-    e: {
-      f: "F",
-    },
-  },
-  e: "Eeee",
-};
-
-console.log(findPaths(deeplyNestedObj2, "a")) // => [ 'a' ]
-console.log(findPaths(deeplyNestedObj2, "b")) // => [ 'a.b' ]
-console.log(findPaths(deeplyNestedObj2, "d")) // => [ 'd', 'a.b.c.d' ]
-console.log(findPaths(deeplyNestedObj2, "e")) // => [ 'e', 'a.b.c.d.e', 'd.e' ]
-console.log(findPaths(deeplyNestedObj2, "G")) // => [ 'a.G' ]
-console.log(findPaths(deeplyNestedObj2, "x")) // => []
-
-
-console.log(getValues(deeplyNestedObj2, "b"))
-// => [ { c: { d: [Object] } } ]
-
-console.log(getValues(deeplyNestedObj2, "d"))
-// => [ { e: { f: 'F' } }, { e: 'e', f: 'f' } ]
-
-console.log(getValues(deeplyNestedObj2, "e"))
-// => [ 'Eeee', 'e', { f: 'F' } ]
-
-console.log(getValues(deeplyNestedObj2, "G"))
-// => [ undefined ]
-
-console.log(getValues(deeplyNestedObj2, "aFunction"))
-// => [ [Function: aFunction] ]
-
-console.log(getValues(deeplyNestedObj2, "aFunction")[0]())
-// => true
-
 describe('NestedKeys', () => {
   describe('hasKey', () => {
     test('returns true for key at depth 1', () => {
@@ -236,7 +187,9 @@ describe('NestedKeys', () => {
       const pathD2 = "a.b.c.d.g.h.j.k.l.m.n.o.p.d";
       const pathD3 = "e1.d";
       const gibberishIdPath1 = "a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[0].gibberishId";
+      const gibberishIdPathArray1 = "[0].a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[0].gibberishId";
       const gibberishIdPath2 = "a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[1].gibberishId";
+      const gibberishIdPathArray2 = "[0].a.b.c.d.g.h.j.k.l.m.n.o.p.gibberishObjects[1].gibberishId";
 
       expect(findPaths(deeplyNestedObj, "a")).toStrictEqual([pathA]);
       expect(typeof _.get(deeplyNestedObj, pathA)).toBe("object");
@@ -258,9 +211,17 @@ describe('NestedKeys', () => {
       ]);
       expect(_.get(deeplyNestedObj, gibberishIdPath1)).toBe(1);
       expect(_.get(deeplyNestedObj, gibberishIdPath2)).toBe(2);
+
+      expect(findPaths([deeplyNestedObj], "gibberishId")).toStrictEqual([
+        gibberishIdPathArray1,
+        gibberishIdPathArray2
+      ]);
+      expect(_.get([deeplyNestedObj, { a: 1 }], gibberishIdPathArray1)).toBe(1);
+      expect(_.get([deeplyNestedObj, { a: 1 }], gibberishIdPathArray2)).toBe(2);
     });
     test('return empty for non-existent key', () => {
       expect(findPaths(deeplyNestedObj, "xyz")).toStrictEqual([]);
+      expect(findPaths([deeplyNestedObj], "xyz")).toStrictEqual([]);
     })
   })
 
@@ -282,11 +243,17 @@ describe('NestedKeys', () => {
       expect(ds[2]).toBe("dee");
 
       expect(getValues(deeplyNestedObj, "gibberishId").length).toBe(2);
+      expect(getValues([deeplyNestedObj], "gibberishId").length).toBe(2);
       expect(getValues(deeplyNestedObj, "gibberishId")).toStrictEqual([1, 2]);
+      expect(getValues([deeplyNestedObj], "gibberishId")).toStrictEqual([1, 2]);
       expect(getValues(deeplyNestedObj, "aFunction")[0]()).toBe(true);
+      expect(getValues([deeplyNestedObj], "aFunction")[0]()).toBe(true);
+      expect(getValues([deeplyNestedObj, { a: 1 }], "aFunction")[0]()).toBe(true);
     });
     test('return empty for non-existent key', () => {
       expect(getValues(deeplyNestedObj, "xyz")).toStrictEqual([]);
+      expect(getValues([deeplyNestedObj], "xyz")).toStrictEqual([]);
+      expect(getValues([deeplyNestedObj, { a: 1 }], "xyz")).toStrictEqual([]);
     })
   })
 });

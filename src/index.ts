@@ -71,7 +71,7 @@ const findPaths = (obj: Object, targetKey: string): string[] => {
 
     if (Array.isArray(currentObj)) {
       currentObj.forEach((item, index) => {
-        helper(item, [...currentPath.slice(0, -1), `${currentPath[currentPath.length - 1]}[${index}]`]);
+        helper(item, [...currentPath.slice(0, -1), `${currentPath.length ? currentPath[currentPath.length - 1] : ""}[${index}]`]);
       });
     } else {
       for (const key in currentObj) {
